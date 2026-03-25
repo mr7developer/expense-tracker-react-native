@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
-import DrawerNavigator from "./src/navigation/DrawerNavigator";
-import { ExpenseProvider } from "./src/context/ExpenseContext";
+import AppNavigator from "./src/navigation/AppNavigator";
+import OnboardingScreen from "./src/screens/OnboardingScreen";
+
+import { ExpenseProvider, ExpenseContext } from "./src/context/ExpenseContext";
 import { ThemeProvider } from "./src/theme/ThemeContext";
+
+// 👇 This controls navigation based on user
+function Root() {
+  const { user } = useContext(ExpenseContext);
+
+  return user ? <AppNavigator /> : <OnboardingScreen />;
+}
 
 export default function App() {
   return (
     <ThemeProvider>
       <ExpenseProvider>
         <NavigationContainer>
-          <DrawerNavigator />
+          <Root />
         </NavigationContainer>
       </ExpenseProvider>
     </ThemeProvider>
